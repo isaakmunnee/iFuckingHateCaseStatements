@@ -155,5 +155,11 @@ namespace iFuckingHateCaseStatements
                 button4.Text = path;
             }
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form1 f = new Form1();
+            f.ShowDialog();
+        }
     }
 }
