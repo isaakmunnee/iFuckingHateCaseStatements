@@ -16,5 +16,17 @@ namespace iFuckingHateCaseStatements
         {
             InitializeComponent();
         }
+        
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Generic_Case gc = new Generic_Case();
+            gc.ShowDialog();
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            CCPriceCase ccpc = new CCPriceCase();
+            ccpc.ShowDialog();
+        }
     }
 }
