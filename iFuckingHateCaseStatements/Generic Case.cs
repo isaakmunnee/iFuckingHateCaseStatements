@@ -20,6 +20,10 @@ namespace iFuckingHateCaseStatements
         public int chosenList;
         public int howManyVars;
 
+        public string path;
+
+        public string varName;
+
         public string[] variableList; //list of .Text from all the textbox's
         public string[][] formatList;
         /*
@@ -100,24 +104,56 @@ namespace iFuckingHateCaseStatements
         {
             ChangeWhichList(0);
 
-            formatList = new string[variableList[0].Split("\r\n".ToCharArray()).Length][];
+            formatList = new string[variableList[0].Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Length][];
 
-            for (int i = 0; i < variableList[0].Split("\r\n".ToCharArray()).Length; i++)
+            for (int i = 0; i < variableList[0].Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Length; i++)
             {
                 formatList[i] = new string[howManyVars];
                 for (int x = 0; x < howManyVars; x++)
                 {
-                    formatList[i][x] = variableList[x].Split("\r\n".ToCharArray())[i];
+                    formatList[i][x] = variableList[x].Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[i];
                 }
             }
 
             string result = "";
-            result += "switch"
+            result += "switch (" + varName + ") {\r\n";
+            
+            for(int i = 0; i < (variableList[0].Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Length); i++)
+            {
+                result += String.Format(textBox1.Text, formatList[i]);
+                result += "\r\n";
+            }
+            result += "}";
+
+            System.IO.File.WriteAllText(path, result);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ChangeWhichList(comboBox1.SelectedIndex);
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 1;
+
+            openFileDialog1.Multiselect = true;
+
+            openFileDialog1.ShowDialog();
+
+            if (!string.IsNullOrWhiteSpace(openFileDialog1.FileName))
+            {
+                path = openFileDialog1.FileName;
+                button4.Text = path;
+            }
         }
     }
 }
